@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "410965279079",
+    "project_id": "locationmaison-407ae",
+    "storage_bucket": "locationmaison-407ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410965279079:android:dae5c7fe9578835aef2fc2",
+        "android_client_info": {
+          "package_name": "com.example.locationmaison"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "410965279079-1jts1r3q8ihnu9itd48v3hugf1a5qaaf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkjGmRb9LkoLb2EyDsAf8m-IISAHiYMYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "410965279079-1jts1r3q8ihnu9itd48v3hugf1a5qaaf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "410965279079-fuksdnlp921daudhb6flacn5dfjiircj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.locationmaison"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410965279079:android:f21d045e728f9412ef2fc2",
+        "android_client_info": {
+          "package_name": "com.yohann.locationdemaison"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "410965279079-1jts1r3q8ihnu9itd48v3hugf1a5qaaf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkjGmRb9LkoLb2EyDsAf8m-IISAHiYMYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "410965279079-1jts1r3q8ihnu9itd48v3hugf1a5qaaf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "410965279079-fuksdnlp921daudhb6flacn5dfjiircj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.locationmaison"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
