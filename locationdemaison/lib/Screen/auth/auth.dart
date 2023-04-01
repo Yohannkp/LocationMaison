@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:locationdemaison/common/constante.dart';
 import 'package:locationdemaison/common/loading.dart';
 import 'package:locationdemaison/services/authentication.dart';
@@ -17,9 +18,11 @@ class _AuthState extends State<Auth> {
   bool loading = false;
   String mail = "";
   String password = "";
+  String telephone = "";
 
   final emailcontroller = TextEditingController();
   final passwordController = TextEditingController();
+  final Numero_telController = TextEditingController();
   bool showSignIn = true;
 
   dynamic result;
@@ -42,6 +45,7 @@ class _AuthState extends State<Auth> {
   @override
   Widget build(BuildContext context) {
     Null firebaseresponse;
+
     return loading ? Loading() : Scaffold(
       backgroundColor: Colors.white,
 
@@ -68,6 +72,12 @@ class _AuthState extends State<Auth> {
           key: _formkey,
           child: Column(
             children: [
+              showSignIn ? new Text("") : IntlPhoneField(
+                controller: Numero_telController,
+                decoration: textInputDecoration.copyWith(hintText: "Telephone"),
+
+              ),
+              SizedBox(height: 10.0,),
               TextFormField(
                 controller: emailcontroller,
                 decoration: textInputDecoration.copyWith(hintText: "Mail"),
@@ -88,15 +98,16 @@ class _AuthState extends State<Auth> {
                   } ),
                   password = passwordController.value.text,
                   mail = emailcontroller.value.text,
+                  telephone = Numero_telController.text,
 
                   result = showSignIn
-                      ? await _authenticationService.signInWithEmailAndPassword(mail, password) : await _authenticationService.registerInWithEmailAndPassword(mail, password),
-                      
+                      ? await _authenticationService.signInWithEmailAndPassword(mail, password) : await _authenticationService.registerInWithEmailAndPassword(mail, password,telephone),
+
                   firebaseresponse = null,
                   if(firebaseresponse == null){
                     setState((){
                       loading = false;
-                      error = "Erreur pendant la connexion";
+                      error = "Erreur durant l'inscription";
                     })
                   }
 
