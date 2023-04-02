@@ -74,18 +74,22 @@ class AuthenticationService {
 
   Future<Personne?> readUser() async {
 
-    final docUser = FirebaseFirestore.instance.collection("Users").doc('my_test');
+    final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
     final snapshot = await docUser.get();
+
     if(snapshot.exists)
     {
       return Personne.fromJson(snapshot.data()!);
     }
+
+
+
     }
 
   Future CreateUser({required String Telephone,required String mail, required String? user_id}) async{
       final docUser = FirebaseFirestore.instance.collection("Users").doc(user_id);
 
-      final Personne personne = new Personne(uid: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: 0, Sex: "", Mail: mail);
+      final Personne personne = new Personne(uid: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: mail, type_user: '');
       final data =  personne.toJson();
 
 
@@ -95,21 +99,43 @@ class AuthenticationService {
       print("Ajout du telephone");
   }
 
-  Future UpdateUser(String uid,String Nom,String Prenom,int Age,String Mail,String Sex,String Tel) async{
-    final docUser = FirebaseFirestore.instance.collection("Users").doc("my_test");
+  Future SetType_user(String type_user) async{
+    final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
+    docUser.update(
+      {
+        "type_user" : type_user
+      }
+    );
+  }
 
-    final Personne personne = new Personne(uid: uid, Numero_tel: Tel, Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: Mail);
+  Future UpdateUser(String? uid,String Nom,String Prenom,DateTime Age,String Mail,String Sex,String? Tel) async{
+
+    final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
+
+    final Personne personne = new Personne(uid: uid, Numero_tel: "Tel", Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: _auth.currentUser?.email, type_user: '');
     final data =  personne.toJson();
 
 
 
-    docUser.update(data);
+    docUser.update({
+      "Nom": Nom,
+      "Prenom" : Prenom,
+      "Sex" : Sex,
+      "Age" : Age
+    });
+    }
+
+
+
+
+
   }
 
   Future DeleteUser() async{
-    final docUser = FirebaseFirestore.instance.collection("Users").doc("my_test");
+    final docUser = FirebaseFirestore.instance.collection("Users").doc("kmd64twPVefeHHWAQa2zGEzaSJX2");
     docUser.delete();
   }
 
 
-}
+
+

@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:locationdemaison/Model/user.dart';
+import 'package:locationdemaison/Screen/Pages/Informations.dart';
 import 'package:locationdemaison/Screen/auth/auth.dart';
 import 'package:locationdemaison/Screen/home/home_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'Pages/type_User.dart';
 class Splashscreen extends StatelessWidget {
   const Splashscreen({Key? key}) : super(key: key);
 
@@ -16,7 +19,7 @@ class Splashscreen extends StatelessWidget {
       return Auth();
     }else{
       print(user.uid);
-      return home_screen();
+      return Type_user();
     }
   }
 }
