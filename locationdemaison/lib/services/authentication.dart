@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:locationdemaison/Model/Personne.dart';
+import 'package:locationdemaison/Model/Post.dart';
 import 'package:locationdemaison/Model/user.dart';
 
 class AuthenticationService {
@@ -52,8 +53,8 @@ class AuthenticationService {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
 
       User? user = result.user;
-
-      CreateUser(Telephone: Telephone, mail: email,user_id: user?.uid);
+      CreateUser(Telephone: Telephone, mail: email,user_id: _auth.currentUser?.uid
+      );
       return _userFromFireBaseUser(user);
     }catch(exeption){
       print(exeption.toString());
@@ -69,12 +70,14 @@ class AuthenticationService {
     }
   }
 
-  Stream<List<Personne>> readUsers()=>FirebaseFirestore.instance.collection("Users").snapshots().map((snapshot) => snapshot.docs.map((doc) =>Personne.fromJson(doc.data())).toList());
+  Stream<List<Personne>> readUsers()=>
+      FirebaseFirestore.instance.collection("Users").snapshots()
+           .map((snapshot) => snapshot.docs.map((doc) =>Personne.fromJson(doc.data())).toList());
 
 
   Future<Personne?> readUser() async {
 
-    final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
+    final docUser = FirebaseFirestore.instance.collection("Users").doc("79BptRFekUcHo3iXd5PE25jsdlD2");
     final snapshot = await docUser.get();
 
     if(snapshot.exists)
@@ -86,15 +89,23 @@ class AuthenticationService {
 
     }
 
+
   Future CreateUser({required String Telephone,required String mail, required String? user_id}) async{
       final docUser = FirebaseFirestore.instance.collection("Users").doc(user_id);
+      final docPost = FirebaseFirestore.instance.collection("Post").doc(_auth.currentUser?.uid);
+      final Personne personne = new Personne(uid: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: mail, type_user: '', image_profile: '');
 
-      final Personne personne = new Personne(uid: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: mail, type_user: '');
-      final data =  personne.toJson();
+      final Post post = new Post(NomLocation: '',uid: _auth.currentUser?.uid,Pays: "Togo", Quartier: "Hedranawoe", Region: "Maritime", Ville: "Lomé", Description: "Avion", Image_maison: "", Image_piece1: "", Image_piece2: "", Image_piece3: "", Image_piece4: "", Date_post: DateTime.now(), Prix: 0, Nombre_chambres: 0, Nombre_likes: 0, Nombre_salon: 0, Nombre_vues: 0, post_id: docPost.id);
+      String path = docPost.path.split("/")[1];
+      print(path);
+      post.post_id = path;
+      final dataUser =  personne.toJson();
+      final dataPost = post.toJson();
 
 
 
-      docUser.set(data);
+      docUser.set(dataUser);
+      docPost.set(dataPost);
       //await docUser.set(json);
       print("Ajout du telephone");
   }
@@ -108,11 +119,11 @@ class AuthenticationService {
     );
   }
 
-  Future UpdateUser(String? uid,String Nom,String Prenom,DateTime Age,String Mail,String Sex,String? Tel) async{
+  Future UpdateUser(String uid,String Nom,String Prenom,DateTime Age,String Mail,String Sex,String? Tel) async{
 
     final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
 
-    final Personne personne = new Personne(uid: uid, Numero_tel: "Tel", Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: _auth.currentUser?.email, type_user: '');
+    final Personne personne = new Personne(uid: uid, Numero_tel: "Tel", Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: _auth.currentUser?.email, type_user: '', image_profile: '');
     final data =  personne.toJson();
 
 
