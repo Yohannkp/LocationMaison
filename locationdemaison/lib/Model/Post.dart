@@ -17,8 +17,8 @@ class Post{
   final int? Nombre_likes;
   final int? Nombre_salon;
   final int? Nombre_vues;
-  final String? uid;
-  final String? Quartier;
+  String? uid;
+  final String Quartier;
   String? post_id;
 
   Post({required this.Pays,required this.NomLocation,required this.post_id,required this.Quartier,required this.Region,required this.Ville,required this.Description,required this.Image_maison,required this.Image_piece1,required this.Image_piece2,required this.Image_piece3,required this.Image_piece4,required this.Date_post,required this.Prix, required this.Nombre_chambres, required this.Nombre_likes, required this.Nombre_salon, required this.Nombre_vues, this.uid});

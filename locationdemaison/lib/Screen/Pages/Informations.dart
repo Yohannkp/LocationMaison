@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:locationdemaison/Model/Personne.dart';
 import 'package:locationdemaison/common/constante.dart';
 import 'package:locationdemaison/services/authentication.dart';
 class Informations extends StatefulWidget {
@@ -22,11 +23,29 @@ class _InformationsState extends State<Informations> {
   bool dateset = false;
   String sex = "";
 
-  final nomController = TextEditingController();
-  final prenomController = TextEditingController();
-  final DateController = TextEditingController();
-  final SexController = TextEditingController();
+
   bool showSignIn = true;
+
+
+
+  String Nom = "";
+  String Prenom = "";
+  String Age = "";
+  String type_user = "";
+  String Sex = "";
+
+  Future<Personne> getOnlineUser() async{
+    Personne personne = await _authenticationService.readUser();
+    setState(() {
+      Nom = personne.Nom!;
+      Prenom = personne.Prenom!;
+      Age = personne.Age.toIso8601String();
+      type_user = personne.type_user!;
+      Sex = personne.Sex!;
+    });
+    return personne;
+
+  }
 
 
   dynamic result;
@@ -71,6 +90,7 @@ class _InformationsState extends State<Informations> {
 
   }
 
+
   void dropdown(String? select){
     if(select is String){
       setState(() {
@@ -78,9 +98,15 @@ class _InformationsState extends State<Informations> {
       });
     }
   }
+
+  final nomController = TextEditingController();
+  final prenomController = TextEditingController();
+  final DateController = TextEditingController();
+  final SexController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Null firebaseresponse;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: loading ? Container(
@@ -93,10 +119,12 @@ class _InformationsState extends State<Informations> {
               SizedBox(height: 10.0,),
               TextFormField(
                 controller: nomController,
+                initialValue: null,
                 decoration: textInputDecoration.copyWith(hintText: "Nom"),
                 validator: (value) =>value!.isEmpty ? "Entrer votre nom" : null,
               ),
               SizedBox(height: 10.0,),
+
               TextFormField(
                 controller: prenomController,
                 decoration: textInputDecoration.copyWith(hintText: "Prenom"),

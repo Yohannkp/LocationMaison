@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:locationdemaison/Screen/Pages/AjoutPost1.dart';
 
 import '../../Model/Post.dart';
 import '../../services/PostService.dart';
@@ -10,8 +11,9 @@ class AjoutPost2 extends StatefulWidget {
 
 
   AjoutPost2(){
-
   }
+
+
 
 
   @override

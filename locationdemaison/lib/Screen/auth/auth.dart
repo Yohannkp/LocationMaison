@@ -103,6 +103,7 @@ class _AuthState extends State<Auth> {
                   result = showSignIn
                       ? await _authenticationService.signInWithEmailAndPassword(mail, password) : await _authenticationService.registerInWithEmailAndPassword(mail, password,telephone),
 
+
                   firebaseresponse = null,
                   if(firebaseresponse == null){
                     setState((){
