@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:locationdemaison/Model/Personne.dart';
+import 'package:locationdemaison/Screen/Pages/type_User.dart';
 import 'package:locationdemaison/common/constante.dart';
 import 'package:locationdemaison/services/authentication.dart';
 class Informations extends StatefulWidget {
@@ -25,7 +26,7 @@ class _InformationsState extends State<Informations> {
 
 
   bool showSignIn = true;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
   String Nom = "";
@@ -161,7 +162,7 @@ class _InformationsState extends State<Informations> {
 
                   firebaseresponse = null,
                   if(firebaseresponse == null){
-                    _authenticationService.UpdateUser("0dJ2wWtNXQPubm61L8QGJe8pzk72", nomController.text, prenomController.text, date!, mail, dropdownValue,telephone),
+                    _authenticationService.UpdateUser("", nomController.text, prenomController.text, date!, mail, dropdownValue,telephone),
 
                     Future.delayed(Duration(seconds: 2), () {
                         // Code à exécuter après 5 secondes
@@ -170,9 +171,11 @@ class _InformationsState extends State<Informations> {
                         });
 
                         print("Loading end");
-                        })
+                        }),
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Type_user())),
 
-                  }
+
+    }
 
                 }
 

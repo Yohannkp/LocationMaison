@@ -85,6 +85,7 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
           actions: <Widget>[
             TextButton.icon(onPressed: () async{
               await _authenticationService.signOut();
+              Navigator.pop(context);
             },icon: Icon(Icons.person), label: Text("Logout"),)
           ],
         ),

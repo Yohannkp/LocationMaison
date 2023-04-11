@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:locationdemaison/Screen/home/home_screen_client.dart';
+import 'package:locationdemaison/Screen/home/home_screen_vendeur.dart';
 import 'package:locationdemaison/services/authentication.dart';
 class Type_user extends StatefulWidget {
   const Type_user({Key? key}) : super(key: key);
@@ -40,6 +42,9 @@ class _Type_userState extends State<Type_user> {
             ElevatedButton(onPressed: (){
 
               _authenticationService.SetType_user(type ? "Client": "Vendeur");
+              type ? Navigator.push(context, MaterialPageRoute(builder: (context)=> home_screen_client())) : Navigator.push(context, MaterialPageRoute(builder: (context)=> home_screen_vendeur()));
+              ;
+
             }, child: Text("Continuer"))
           ],
         )

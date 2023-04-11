@@ -92,6 +92,22 @@ class AuthenticationService {
     }
 
 
+  Future<Personne?> readOnlineUser() async {
+
+    final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
+    final snapshot = await docUser.get();
+
+    if(snapshot.exists)
+    {
+      return Personne.fromJson(snapshot.data()!);
+    }
+
+    return null;
+
+
+  }
+
+
   Future CreateUser({required String Telephone,required String mail, required String? user_id}) async{
       final docUser = FirebaseFirestore.instance.collection("Users").doc(user_id);
       //final docPost = FirebaseFirestore.instance.collection("Post").doc(_auth.currentUser?.uid);

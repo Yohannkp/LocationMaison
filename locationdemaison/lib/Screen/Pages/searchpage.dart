@@ -78,7 +78,11 @@ class _SearchState extends State<Search> {
             itemBuilder: (BuildContext context, int index) {
 
               if(name.isEmpty){
-                return Container();
+                return Container(
+                  child: Center(
+                    child: Text("En attente de votre recherche..."),
+                  ),
+                );
               }else if(posts[index].NomLocation.toString().toLowerCase().startsWith(name.toLowerCase())){
                 return SingleChildScrollView(
                   scrollDirection: Axis.vertical,

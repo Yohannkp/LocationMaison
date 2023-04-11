@@ -105,14 +105,14 @@ class postdetails extends StatelessWidget {
             FutureBuilder(
                 future: postService.readProprietaire(post),
                 builder: (context,snapshot){
-                  if(snapshot.connectionState == true){
+                  if(snapshot.connectionState == ConnectionState.done){
                     if(snapshot.hasData){
-                      return Text(snapshot.data!.Nom == null ? "Chargement" : snapshot.data!.Nom);
+                      return Text(snapshot.data!.Nom);
                     }else{
-                      return CircularProgressIndicator();
+                      return Text("Propriétaire indisponible");
                     }
                   }else{
-                    return Text(snapshot.data!.Nom == null ? "Chargement" : snapshot.data!.Nom);
+                    return CircularProgressIndicator();
                   }
                 },
             ),

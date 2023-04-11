@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:locationdemaison/Screen/Pages/Informations.dart';
 import 'package:locationdemaison/common/constante.dart';
 import 'package:locationdemaison/common/loading.dart';
 import 'package:locationdemaison/services/authentication.dart';
@@ -100,10 +101,20 @@ class _AuthState extends State<Auth> {
                   mail = emailcontroller.value.text,
                   telephone = Numero_telController.text,
 
-                  result = showSignIn
-                      ? await _authenticationService.signInWithEmailAndPassword(mail, password) : await _authenticationService.registerInWithEmailAndPassword(mail, password,telephone),
+                  //result = showSignIn
+                      //? await _authenticationService.signInWithEmailAndPassword(mail, password) : await _authenticationService.registerInWithEmailAndPassword(mail, password,telephone),
 
+                  if(showSignIn == true){
+                    await _authenticationService.signInWithEmailAndPassword(mail, password),
 
+                  }else{
+                    await _authenticationService.registerInWithEmailAndPassword(mail, password,telephone),
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Informations())),
+                    setState((){
+                      showSignIn = true;
+                    })
+
+                  },
                   firebaseresponse = null,
                   if(firebaseresponse == null){
                     setState((){
