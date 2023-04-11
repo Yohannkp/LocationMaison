@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Personne{
   final String? uid;
   final String? Numero_tel;
-  final String? Nom;
+  final String Nom;
   final String? Prenom;
   final DateTime Age;
   final String? Sex;

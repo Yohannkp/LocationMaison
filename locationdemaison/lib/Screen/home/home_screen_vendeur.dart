@@ -147,8 +147,9 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
-                                                height: 150,
+
                                                 width: MediaQuery.of(context).size.width,
+                                                height : 150,
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.end,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,8 +177,15 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: [
-                                                      Text(posts[index].NomLocation),
-                                                      Text(posts[index].Pays!)
+                                                      Text(posts[index].NomLocation!),
+
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          Icon(Icons.monitor_heart),
+                                                          Icon(Icons.access_time_rounded)
+                                                        ],
+                                                      )
                                                     ],
                                                   )
                                                 ],

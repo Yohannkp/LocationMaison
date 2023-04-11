@@ -82,6 +82,10 @@ class PostService{
         return null;
       }
   }
+  deletePost(Post post) async {
+    final docPost = FirebaseFirestore.instance.collection("Post").doc(post.post_id);
+    docPost.delete();
+  }
 
   Future UpdatePost(Post post) async{
     final docPost = FirebaseFirestore.instance.collection("Post").doc();
@@ -95,6 +99,26 @@ class PostService{
         "Pays": post.Pays,
         "Prix" : post.Prix
       }
+    );
+
+
+
+  }
+
+
+  Future UpdatePostUser(Post post) async{
+    final docPost = FirebaseFirestore.instance.collection("Post").doc(post.post_id);
+
+    print("Update de : "+post.NomLocation);
+    docPost.update(
+        {
+          "NomLocation": post.NomLocation,
+          "Description" : post.Description,
+          "Ville" : post.Ville,
+          "Quartier": post.Quartier,
+          "Pays": post.Pays,
+          "Prix" : post.Prix
+        }
     );
 
 

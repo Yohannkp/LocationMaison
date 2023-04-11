@@ -2,23 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post{
   String NomLocation;
-  final String? Description;
+  String? Description;
   String? Image_maison;
   String? Image_piece1;
   String? Image_piece2;
   String? Image_piece3;
   String? Image_piece4;
-  final String? Ville;
-  final String? Pays;
-  final String? Region;
-  final DateTime? Date_post;
-  final int? Prix;
-  final int? Nombre_chambres;
-  final int? Nombre_likes;
-  final int? Nombre_salon;
-  final int? Nombre_vues;
+  String? Ville;
+  String? Pays;
+  String? Region;
+  DateTime? Date_post;
+  int? Prix;
+  int? Nombre_chambres;
+  int? Nombre_likes;
+  int? Nombre_salon;
+  int? Nombre_vues;
   String? uid;
-  final String Quartier;
+  String Quartier;
   String? post_id;
 
   Post({required this.Pays,required this.NomLocation,required this.post_id,required this.Quartier,required this.Region,required this.Ville,required this.Description,required this.Image_maison,required this.Image_piece1,required this.Image_piece2,required this.Image_piece3,required this.Image_piece4,required this.Date_post,required this.Prix, required this.Nombre_chambres, required this.Nombre_likes, required this.Nombre_salon, required this.Nombre_vues, this.uid});

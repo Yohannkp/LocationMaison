@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:locationdemaison/Model/Personne.dart';
 import 'package:locationdemaison/Model/Post.dart';
+import 'package:locationdemaison/Screen/Pages/AjoutPost1.dart';
+import 'package:locationdemaison/Screen/Pages/ModifierPost.dart';
 import 'package:locationdemaison/services/PostService.dart';
 class postdetails extends StatelessWidget {
   const postdetails({super.key, required this.post});
@@ -11,10 +13,13 @@ class postdetails extends StatelessWidget {
   Widget build(BuildContext context) {
 
     getProprietaire() async{
-      final proprietaire = await PostService().readProprietaire(post);
-      print(proprietaire.Nom);
-      return proprietaire.Nom;
+      final proprietaire = await PostService().readProprietaire(post).then((value) => value);
+      print(proprietaire);
+      return proprietaire;
     }
+
+    PostService postService = PostService();
+
     final bool test = true;
 
 
@@ -53,7 +58,7 @@ class postdetails extends StatelessWidget {
                       height: 150,
                       color: Colors.green,
                       child: Card(
-                        child: Image.network(post.Image_piece1.toString()),
+                        child: Image.network(post.Image_piece1.toString(),fit: BoxFit.cover,),
                       ),
 
                     )
@@ -63,7 +68,7 @@ class postdetails extends StatelessWidget {
                       width: 150,
                       height: 150,
                       child: Card(
-                        child: Image.network(post.Image_piece2 != null ? post.Image_piece2.toString() : "" ),
+                        child: Image.network("https://th.bing.com/th/id/OIP.Z0PLkCGpEDNcan8n3m-OIAHaFk?w=218&h=180&c=7&r=0&o=5&pid=1.7",fit: BoxFit.cover,),
                       ),
                     ),
 
@@ -71,7 +76,7 @@ class postdetails extends StatelessWidget {
                       width: 150,
                       height: 150,
                       child: Card(
-                        child: Image.network(post.Image_piece3.toString()),
+                        child: Image.network("https://th.bing.com/th/id/OIP.Z0PLkCGpEDNcan8n3m-OIAHaFk?w=218&h=180&c=7&r=0&o=5&pid=1.7",fit: BoxFit.cover,),
                       ),
                     ),
 
@@ -79,7 +84,7 @@ class postdetails extends StatelessWidget {
                       width: 150,
                       height: 150,
                       child: Card(
-                        child: Image.network(post.Image_piece4.toString()),
+                        child: Image.network(post.Image_piece4.toString(),fit: BoxFit.cover,),
                       ),
                     ),
 
@@ -96,7 +101,42 @@ class postdetails extends StatelessWidget {
             Text("Region : "+post.Region!),
             Text("Ville : "+post.Ville!),
             Text("Quartié : "+post.Quartier),
-            Text("Prix de la location : "+post.Prix.toString()+" FCFA"),
+
+            FutureBuilder(
+                future: postService.readProprietaire(post),
+                builder: (context,snapshot){
+                  if(snapshot.connectionState == true){
+                    if(snapshot.hasData){
+                      return Text(snapshot.data!.Nom == null ? "Chargement" : snapshot.data!.Nom);
+                    }else{
+                      return CircularProgressIndicator();
+                    }
+                  }else{
+                    return Text(snapshot.data!.Nom == null ? "Chargement" : snapshot.data!.Nom);
+                  }
+                },
+            ),
+
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(onPressed: (){
+                  postService.deletePost(post);
+                  Navigator.pop(context);
+
+                }, child: Text("Supprimer")),
+                SizedBox(
+                  width: 50,
+                ),
+                ElevatedButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ModifierPost(post: post,) ));
+                }, child: Text("Modifier"))
+              ],
+            )
+
 
 
           ],
@@ -104,7 +144,13 @@ class postdetails extends StatelessWidget {
       ),
     );
   }
+
+  getUserid() async{
+    final proprietaire = await PostService().readProprietaire(post).then((value) => value);
+  }
 }
+
+
 
 
 
