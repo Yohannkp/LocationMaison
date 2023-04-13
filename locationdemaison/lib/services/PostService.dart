@@ -32,7 +32,7 @@ class PostService{
     {
       return Personne.fromJson(snapshot.data()!);
     }
-    return Personne(uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user");
+    return Personne(id: "",uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user");
   }
   Future<String?> uploadImage(File file,{required String path,required int i,required Post post}) async {
       PostService postService = PostService();

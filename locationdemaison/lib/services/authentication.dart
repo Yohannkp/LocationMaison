@@ -85,11 +85,16 @@ class AuthenticationService {
       return Personne.fromJson(snapshot.data()!);
     }
 
-
-
-
-
     }
+
+  Future<Personne> readUserConnected(String uid) async{
+    final docUser = FirebaseFirestore.instance.collection("Users").doc(uid);
+    final snapshot = await docUser.get();
+
+
+    return Personne.fromJson(snapshot.data()!);
+
+  }
 
 
   Future<Personne?> readOnlineUser() async {
@@ -111,7 +116,7 @@ class AuthenticationService {
   Future CreateUser({required String Telephone,required String mail, required String? user_id}) async{
       final docUser = FirebaseFirestore.instance.collection("Users").doc(user_id);
       //final docPost = FirebaseFirestore.instance.collection("Post").doc(_auth.currentUser?.uid);
-      final Personne personne = new Personne(uid: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: mail, type_user: '', image_profile: '');
+      final Personne personne = new Personne(uid: user_id!,id: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: mail, type_user: '', image_profile: '');
 
       //final Post post = new Post(NomLocation: '',uid: _auth.currentUser?.uid,Pays: "Togo", Quartier: "Hedranawoe", Region: "Maritime", Ville: "Lomé", Description: "Avion", Image_maison: "", Image_piece1: "", Image_piece2: "", Image_piece3: "", Image_piece4: "", Date_post: DateTime.now(), Prix: 0, Nombre_chambres: 0, Nombre_likes: 0, Nombre_salon: 0, Nombre_vues: 0, post_id: docPost.id);
       //String path = docPost.path.split("/")[1];
@@ -137,11 +142,13 @@ class AuthenticationService {
     );
   }
 
+
+
   Future UpdateUser(String uid,String Nom,String Prenom,DateTime Age,String Mail,String Sex,String? Tel) async{
 
     final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
 
-    final Personne personne = new Personne(uid: uid, Numero_tel: "Tel", Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: _auth.currentUser?.email, type_user: '', image_profile: '');
+    final Personne personne = new Personne(id: uid,uid: uid, Numero_tel: "Tel", Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: _auth.currentUser?.email, type_user: '', image_profile: '');
     final data =  personne.toJson();
 
 

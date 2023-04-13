@@ -214,27 +214,52 @@ class _home_screen_clientState extends State<home_screen_client> {
 
               //Page paramètres
               Container(
-                child: Column(
-                  children: [
-                    Text("Nom : "+Nom),
-                    Text("Prenom : "+Prenom),
-                    Text("Date de naissance : "+Age),
-                    Text("Sex : "+sex),
-                    Text("Type d'utilisateur : "+type_user),
-                    ElevatedButton(onPressed: (){
-                      Personne p = new Personne(uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user" );
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Informations()));
-                    }, child: Text("Modifier son profil")),
-                  ],
+                child: FutureBuilder(
+                  future: getOnlineUser(),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData) {
+                      if(snapshot.data != null){
+                        return Column(
+                          children: [
+                            Text("Nom : " + snapshot.data!.Nom),
+                            Text("Prenom : " + snapshot.data!.Prenom),
+                            Text("Date de naissance : " +
+                                snapshot.data!.Age.toIso8601String()),
+                            Text("Sex : " + snapshot.data!.Sex),
+                            Text("Type d'utilisateur : " +
+                                snapshot.data!.type_user),
+                            ElevatedButton(onPressed: () {
+                              Personne p = new Personne(id: "",uid: "uid",
+                                  image_profile: "image_profile",
+                                  Numero_tel: "Numero_tel",
+                                  Nom: "Nom",
+                                  Prenom: "Prenom",
+                                  Age: DateTime.now(),
+                                  Sex: "Sex",
+                                  Mail: "Mail",
+                                  type_user: "type_user");
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => Informations()));
+                            }, child: Text("Modifier son profil")),
+                          ],
+                        );
+                      }else{return Center(child: CircularProgressIndicator(),);}
+
+                    }else{
+                      return Center(child: CircularProgressIndicator(),);
+                    }
+
+
+                  }
                 ),
               ),
-
-
 
               Container(
                 color: Colors.green,
               ),
 
+
+              //Page De recherche
               Container(
                 child: StreamBuilder<List<Post>>(
 
@@ -453,10 +478,6 @@ class _home_screen_clientState extends State<home_screen_client> {
                 ),
               ),
 
-
-              Container(
-                color: Colors.lightGreenAccent,
-              ),
             ],
           ),
 

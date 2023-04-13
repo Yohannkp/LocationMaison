@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:locationdemaison/Model/Personne.dart';
 import 'package:locationdemaison/Model/Post.dart';
 import 'package:locationdemaison/Screen/Pages/AjoutPost1.dart';
+import 'package:locationdemaison/Screen/Pages/Chat/chat.dart';
+import 'package:locationdemaison/Screen/Pages/Chat/message.dart';
 import 'package:locationdemaison/Screen/Pages/Informations.dart';
 import 'package:locationdemaison/Screen/Pages/info_post_1.dart';
 import 'package:locationdemaison/Screen/Pages/postdetails.dart';
@@ -233,7 +235,7 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
                     Text("Sex : "+sex),
                     Text("Type d'utilisateur : "+type_user),
                     ElevatedButton(onPressed: (){
-                      Personne p = new Personne(uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user" );
+                      Personne p = new Personne(id: "",uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user" );
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> Informations()));
                     }, child: Text("Modifier son profil")),
                   ],
@@ -241,11 +243,13 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
               ),
 
 
-
+              //Page Discussions
               Container(
-                color: Colors.green,
+                child: Message(_auth.currentUser?.uid),
               ),
 
+
+              //Page De recherche
               Container(
                 child: StreamBuilder<List<Post>>(
 

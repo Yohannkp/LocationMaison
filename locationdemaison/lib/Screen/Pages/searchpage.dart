@@ -71,7 +71,7 @@ class _SearchState extends State<Search> {
           print(snapshot.error);
           return Text("Une erreur s'est produite : ${snapshot.error}",);
         }
-        else if(snapshot.hasData){
+        else {
           final posts = snapshot.data!;
           return posts.isEmpty ? Center(child: Text("Aucun post trouver"),) : ListView.builder(
             itemCount: posts.map(AffichagePost).toList().length,
@@ -170,8 +170,6 @@ class _SearchState extends State<Search> {
             },
 
           );
-        }else{
-          return Center(child: CircularProgressIndicator(),);
         }
       },
     ),

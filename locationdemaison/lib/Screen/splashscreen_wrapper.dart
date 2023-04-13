@@ -4,6 +4,7 @@ import 'package:locationdemaison/Model/Personne.dart';
 import 'package:locationdemaison/Model/Post.dart';
 import 'package:locationdemaison/Model/user.dart';
 import 'package:locationdemaison/Screen/Pages/AjoutPost1.dart';
+import 'package:locationdemaison/Screen/Pages/Chat/message.dart';
 import 'package:locationdemaison/Screen/Pages/Informations.dart';
 import 'package:locationdemaison/Screen/Pages/info_post_1.dart';
 import 'package:locationdemaison/Screen/Pages/info_post_2.dart';
@@ -39,6 +40,7 @@ class Splashscreen extends StatelessWidget {
               if(snapshot.data?.type_user == "client"){
                 return home_screen_client();
               }else{
+                //return Message(snapshot.data!.id);
                 return home_screen_vendeur();
               }
 
