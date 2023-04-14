@@ -42,7 +42,7 @@ class MessageService{
     for (var x in liste){
       resultat += x + "+";
     }
-    print(resultat);
+
     return resultat;
 
   }

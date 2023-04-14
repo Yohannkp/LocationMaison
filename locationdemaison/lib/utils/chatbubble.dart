@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:locationdemaison/Model/DartHelper.dart';
 import 'package:locationdemaison/Model/Message.dart';
 import 'package:locationdemaison/Model/Personne.dart';
+import 'package:locationdemaison/Screen/Pages/paiement/Cinetpay.dart';
 class Chatbublle extends StatelessWidget {
 
   Message message;
   Personne partenaire;
   String monId;
+  bool statutpaiment;
 
-  Chatbublle({required this.monId,required this.partenaire,required this.message});
+  Chatbublle({required this.monId,required this.partenaire,required this.message,required this.statutpaiment});
 
 
   @override
@@ -38,15 +41,24 @@ class Chatbublle extends StatelessWidget {
             color: bubblecolor,
             child: new Container(
               padding: EdgeInsets.all(10.0),
-              child: (message.imageurl == "") ? new Text(
-                message.text ?? "",
-                style: new TextStyle(
-                  color: textcolor,
-                  fontSize: 15.0,
-                  fontStyle: FontStyle.italic
-                ),
-              ) : new Image.network(message.imageurl),
-            ),
+              child: Column(
+                children: [
+                  (message.imageurl == "") ? new Text(
+                    statutpaiment ?
+                    message.text ?? "" : "Pour discuter avec cet utilisateur\n vous devez souscrir a un abonnenement\n cliquez sur le boutton ci-dessous",
+                    style: new TextStyle(
+                        color: textcolor,
+                        fontSize: 15.0,
+                        fontStyle: FontStyle.italic
+                    ),
+                  ) : new Text(""),
+                  statutpaiment ? new Container(height: 0,width: 0,) : FutureBuilder(builder: (context,snapshot){
+                      return ElevatedButton(onPressed:() {Navigator.push(context, MaterialPageRoute(builder: (context)=> MyApp()));}, child: Text("Payer votre abonnement"));
+                  })
+
+
+                ],
+              )),
           )
         ],
       ))

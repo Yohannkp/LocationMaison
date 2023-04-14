@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:locationdemaison/Model/Personne.dart';
 import 'package:locationdemaison/Model/Post.dart';
 import 'package:locationdemaison/Screen/Pages/AjoutPost1.dart';
+import 'package:locationdemaison/Screen/Pages/Chat/message.dart';
 import 'package:locationdemaison/Screen/Pages/Informations.dart';
 import 'package:locationdemaison/Screen/Pages/postdetails.dart';
 import 'package:locationdemaison/services/PostService.dart';
 import 'package:locationdemaison/services/authentication.dart';
+import 'package:locationdemaison/services/paiementservice.dart';
 class home_screen_client extends StatefulWidget {
   const home_screen_client({Key? key}) : super(key: key);
 
@@ -22,15 +24,27 @@ class _home_screen_clientState extends State<home_screen_client> {
   late PageController _pageController;
   late String nom;
 
+  Personne? onlineuser;
+  PaiementService paiementService = PaiementService();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  void initState(){
-
-    _pageController = PageController();
+  void initState() {
+    // TODO: implement initState
     super.initState();
 
+    _pageController = PageController();
+
+    AuthenticationService _authenticationService = AuthenticationService();
+    _authenticationService.readUserConnected(_auth.currentUser!.uid).then((value) {
+      this.onlineuser = value;
+      return value;
+      //Navigator.push(context, new MaterialPageRoute(builder: (context) => new chat(partenaire: value, id: this.widget.id)));
+    });
 
   }
+
+
 
   String name = "";
 
@@ -61,7 +75,7 @@ class _home_screen_clientState extends State<home_screen_client> {
 
   }
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     final datas = postService.readAllPosts();
@@ -192,7 +206,7 @@ class _home_screen_clientState extends State<home_screen_client> {
                                   ),
                                   onTap: (){
                                     print("Touché container numero : "+index.toString());
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> postdetails( post: posts[index],)));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> postdetails( post: posts[index],id: _auth.currentUser!.uid,)));
                                   },
                                 )
                               ],
@@ -221,6 +235,8 @@ class _home_screen_clientState extends State<home_screen_client> {
                       if(snapshot.data != null){
                         return Column(
                           children: [
+                            Text(onlineuser!.statuspaiment ? "Abonnement actif" : "Abonnement inactif"),
+                            Text("Fin abonnement : "+onlineuser!.fin_abonnement.toIso8601String()),
                             Text("Nom : " + snapshot.data!.Nom),
                             Text("Prenom : " + snapshot.data!.Prenom),
                             Text("Date de naissance : " +
@@ -229,15 +245,7 @@ class _home_screen_clientState extends State<home_screen_client> {
                             Text("Type d'utilisateur : " +
                                 snapshot.data!.type_user),
                             ElevatedButton(onPressed: () {
-                              Personne p = new Personne(id: "",uid: "uid",
-                                  image_profile: "image_profile",
-                                  Numero_tel: "Numero_tel",
-                                  Nom: "Nom",
-                                  Prenom: "Prenom",
-                                  Age: DateTime.now(),
-                                  Sex: "Sex",
-                                  Mail: "Mail",
-                                  type_user: "type_user");
+
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => Informations()));
                             }, child: Text("Modifier son profil")),
@@ -255,7 +263,7 @@ class _home_screen_clientState extends State<home_screen_client> {
               ),
 
               Container(
-                color: Colors.green,
+                child: Message(_auth.currentUser?.uid),
               ),
 
 

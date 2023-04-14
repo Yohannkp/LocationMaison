@@ -13,6 +13,7 @@ import 'package:locationdemaison/Screen/Pages/postdetails.dart';
 import 'package:locationdemaison/Screen/Pages/searchpage.dart';
 import 'package:locationdemaison/services/PostService.dart';
 import 'package:locationdemaison/services/authentication.dart';
+import 'package:locationdemaison/services/paiementservice.dart';
 
 import '../../utils/settings_page.dart';
 class home_screen_vendeur extends StatefulWidget {
@@ -30,12 +31,23 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
   late String nom;
 
 
-  @override
-  void initState(){
+  Personne? onlineuser;
+  PaiementService paiementService = PaiementService();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
-    _pageController = PageController();
+  @override
+  void initState() {
+    // TODO: implement initState
     super.initState();
 
+    _pageController = PageController();
+
+    AuthenticationService _authenticationService = AuthenticationService();
+    _authenticationService.readUserConnected(_auth.currentUser!.uid).then((value) {
+      this.onlineuser = value;
+      return value;
+      //Navigator.push(context, new MaterialPageRoute(builder: (context) => new chat(partenaire: value, id: this.widget.id)));
+    });
 
   }
 
@@ -67,9 +79,6 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
       return personne;
 
   }
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
 
   @override
@@ -205,7 +214,7 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
                                   ),
                                   onTap: (){
                                     print("Touché container numero : "+index.toString());
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> postdetails( post: posts[index],)));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> postdetails( post: posts[index],id: _auth.currentUser!.uid,)));
                                   },
                                 )
                               ],
@@ -229,13 +238,17 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
               Container(
                 child: Column(
                   children: [
+                    FutureBuilder(builder: (context,snapshot){
+                      return Text(onlineuser!.statuspaiment ? "Payé" : "Non payé");
+                    }),
+
                     Text("Nom : "+Nom),
                     Text("Prenom : "+Prenom),
                     Text("Date de naissance : "+Age),
                     Text("Sex : "+sex),
                     Text("Type d'utilisateur : "+type_user),
+                    //text("Fin de l'abonnement : "+)
                     ElevatedButton(onPressed: (){
-                      Personne p = new Personne(id: "",uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user" );
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> Informations()));
                     }, child: Text("Modifier son profil")),
                   ],

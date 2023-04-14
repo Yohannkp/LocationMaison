@@ -9,7 +9,7 @@ import 'package:locationdemaison/services/authentication.dart';
 import 'package:locationdemaison/services/messageservice.dart';
 class Message extends StatefulWidget {
 
-  late String? id;
+  String? id;
   Message(String? id){
     this.id = id;
   }
