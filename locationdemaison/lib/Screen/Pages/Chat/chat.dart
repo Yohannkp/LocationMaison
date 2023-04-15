@@ -60,7 +60,9 @@ class _chatState extends State<chat> {
                   sort: (a,b) => b.key!.compareTo(a.key!),
                   itemBuilder: (BuildContext context, DataSnapshot snapshot,Animation<double> animation,int index){
                     Map conversation = snapshot.value as Map;
-                    return Chatbublle(monId: widget.id, partenaire: widget.partenaire, message: Message(from: conversation["from"],to: conversation["to"],text: conversation["text"] ,dateString: conversation["dateString"],imageurl: ""), statutpaiment: onlineuser!.statuspaiment,);
+                    return FutureBuilder(builder: (context,snapshot){
+                      return Chatbublle(monId: widget.id, partenaire: widget.partenaire, message: Message(from: conversation["from"],to: conversation["to"],text: conversation["text"] ,dateString: conversation["dateString"],imageurl: ""), statutpaiment: onlineuser?.statuspaiment,);
+                    });
                   } )),
               new Divider(height: 1.5,),
               new zonetextwidget(partenaire: this.widget.partenaire,id: widget.id,)

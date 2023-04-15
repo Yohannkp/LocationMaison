@@ -34,17 +34,18 @@ class Splashscreen extends StatelessWidget {
     if(user == null){
       return Auth();
     }else{
-      print(user.uid);
+      print("L'utilisateur connecté est : "+user.uid);
       return FutureBuilder(
           future: userconnected,
           builder: (context,snapshot) {
             if(snapshot.connectionState == ConnectionState.done){
               if(snapshot.data?.type_user == "client"){
-                snapshot.data!.fin_abonnement.isBefore(DateTime.now()) ? _paiementserice.finabonnement() : null;
+
+                //snapshot.data!.fin_abonnement.isBefore(DateTime.now()) ? _paiementserice.finabonnement() : null;
                 return home_screen_client();
               }else{
                 //return Message(snapshot.data!.id);
-                snapshot.data!.fin_abonnement.isBefore(DateTime.now()) ? _paiementserice.finabonnement() : null;
+                //snapshot.data!.fin_abonnement.isBefore(DateTime.now()) ? _paiementserice.finabonnement() : null;
                 return home_screen_vendeur();
               }
             }else{

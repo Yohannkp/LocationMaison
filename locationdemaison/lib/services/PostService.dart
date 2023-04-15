@@ -32,7 +32,12 @@ class PostService{
     {
       return Personne.fromJson(snapshot.data()!);
     }
-    return Personne(id: "",uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user", statuspaiment: false, fin_abonnement: DateTime.now());
+    return Personne(id: "",uid: "uid", image_profile: "image_profile", Numero_tel: "Numero_tel", Nom: "Nom", Prenom: "Prenom", Age: DateTime.now(), Sex: "Sex", Mail: "Mail", type_user: "type_user", statuspaiment: false, fin_abonnement: DateTime.now(), password: '');
+  }
+
+  Future<Post> getImagepiece1(Post post) async{
+
+    return post;
   }
   Future<String?> uploadImage(File file,{required String path,required int i,required Post post}) async {
       PostService postService = PostService();
@@ -88,8 +93,9 @@ class PostService{
   }
 
   Future UpdatePost(Post post) async{
-    final docPost = FirebaseFirestore.instance.collection("Post").doc();
+    final docPost = FirebaseFirestore.instance.collection("Post").doc(post.post_id);
 
+    print("Update du post");
     docPost.update(
       {
         "NomLocation": post.NomLocation,
@@ -100,6 +106,7 @@ class PostService{
         "Prix" : post.Prix
       }
     );
+    print("Update terminer");
 
 
 

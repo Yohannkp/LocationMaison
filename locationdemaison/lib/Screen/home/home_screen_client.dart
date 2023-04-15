@@ -5,7 +5,9 @@ import 'package:locationdemaison/Model/Post.dart';
 import 'package:locationdemaison/Screen/Pages/AjoutPost1.dart';
 import 'package:locationdemaison/Screen/Pages/Chat/message.dart';
 import 'package:locationdemaison/Screen/Pages/Informations.dart';
+import 'package:locationdemaison/Screen/Pages/Personne/UpdatePersonne.dart';
 import 'package:locationdemaison/Screen/Pages/postdetails.dart';
+import 'package:locationdemaison/common/loading.dart';
 import 'package:locationdemaison/services/PostService.dart';
 import 'package:locationdemaison/services/authentication.dart';
 import 'package:locationdemaison/services/paiementservice.dart';
@@ -85,7 +87,7 @@ class _home_screen_clientState extends State<home_screen_client> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text("Acceuil"),
+          title: Text("Page client",style: TextStyle(color: Colors.black)),
           actions: <Widget>[
             TextButton.icon(onPressed: () async{
               await _authenticationService.signOut();
@@ -247,7 +249,7 @@ class _home_screen_clientState extends State<home_screen_client> {
                             ElevatedButton(onPressed: () {
 
                               Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => Informations()));
+                                  builder: (context) => UpdatePersonne(personne: onlineuser!,)));
                             }, child: Text("Modifier son profil")),
                           ],
                         );
@@ -263,7 +265,11 @@ class _home_screen_clientState extends State<home_screen_client> {
               ),
 
               Container(
-                child: Message(_auth.currentUser?.uid),
+                child: FutureBuilder(builder: (context,snapshot){
+
+                    return Message(_auth.currentUser?.uid);
+
+                })
               ),
 
 

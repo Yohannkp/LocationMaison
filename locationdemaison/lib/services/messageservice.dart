@@ -11,7 +11,6 @@ class MessageService{
 
   sendMessage(Personne receveur,Personne moi,String text,imageurl){
     String date = new DateTime.now().millisecondsSinceEpoch.toString();
-
     Map map = {
       "from" : moi.uid,
       "to": receveur.id,
@@ -22,8 +21,12 @@ class MessageService{
 
     base_message.child(getMessageRef(moi.uid, receveur.id)).child(date).set(map);
     date = DateHelper().getDate(date);
-    base_conversation.child(moi.uid).child(receveur.id).set(getConversation(moi.uid, receveur, text, date));
-    base_conversation.child(receveur.id).child(moi.uid).set(getConversation(moi.uid,moi,text,date));
+    try{
+      base_conversation.child(moi.uid).child(receveur.id).set(getConversation(moi.uid, receveur, text, date));
+      base_conversation.child(receveur.id).child(moi.uid).set(getConversation(moi.uid,moi,text,date));
+    }catch(e){
+      print("Erreur lors de la creation de la conversation : "+e.toString());
+    }
   }
 
   Map getConversation(String sender,Personne user, String text,String date){
@@ -32,6 +35,7 @@ class MessageService{
     map["last_message"] = text;
     map["dateString"] = date;
     map["Age"] = date;
+    map["fin_abonnement"] = user.fin_abonnement.millisecondsSinceEpoch.toString();
     return map;
   }
 
@@ -45,5 +49,10 @@ class MessageService{
 
     return resultat;
 
+  }
+
+  Future getDoc(String id) async{
+
+    return base_conversation.child(id);
   }
 }

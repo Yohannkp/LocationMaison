@@ -5,16 +5,16 @@ import 'package:locationdemaison/Model/Personne.dart';
 import 'package:locationdemaison/Screen/Pages/type_User.dart';
 import 'package:locationdemaison/common/constante.dart';
 import 'package:locationdemaison/services/authentication.dart';
-class Informations extends StatefulWidget {
+class UpdatePersonne extends StatefulWidget {
 
   Personne personne;
-  Informations({required this.personne});
+  UpdatePersonne({required this.personne});
 
   @override
-  State<Informations> createState() => _InformationsState();
+  State<UpdatePersonne> createState() => _UpdatePersonne();
 }
 
-class _InformationsState extends State<Informations> {
+class _UpdatePersonne extends State<UpdatePersonne> {
   final AuthenticationService _authenticationService = AuthenticationService();
   final _formkey = GlobalKey<FormState>();
   String error = '';
@@ -22,7 +22,7 @@ class _InformationsState extends State<Informations> {
   String mail = "";
   String password = "";
   String telephone = "";
-  DateTime ?date = new DateTime.now();
+  DateTime date = DateTime.now();
   bool dateset = false;
   String sex = "";
 
@@ -84,11 +84,11 @@ class _InformationsState extends State<Informations> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1950),
         lastDate: DateTime.now()).then((value) => {
-          setState((){
-                date = value;
-                dateset = true;
+      setState((){
+        date = value!;
+        dateset = true;
 
-          })
+      })
     });
 
   }
@@ -106,6 +106,16 @@ class _InformationsState extends State<Informations> {
   final prenomController = TextEditingController();
   final DateController = TextEditingController();
   final SexController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nomController.text = this.widget.personne.Nom;
+    prenomController.text = this.widget.personne.Prenom;
+    DateController.text = this.widget.personne.Age.toIso8601String();
+
+  }
   @override
   Widget build(BuildContext context) {
     Null firebaseresponse;
@@ -135,13 +145,6 @@ class _InformationsState extends State<Informations> {
                 validator: (value) =>value!.length < 6 ? "Entrez votre prenom" : null,
               ),
               SizedBox(height: 10.0,),
-              Container(
-                    child: TextButton(onPressed: () { _showDate(); },
-                    child: new Text(dateset ? date!=null ? "${date?.day.toString()}/${date?.month.toString()}/${date?.year.toString()}" : "Date" : "Date" )),
-                width: 280,
-              ),
-
-
               DropdownButton<String>(
                 value: dropdownValue,
                 items: items.map<DropdownMenuItem<String>>((String value) {
@@ -167,22 +170,22 @@ class _InformationsState extends State<Informations> {
                     //_authenticationService.UpdateUser("", nomController.text, prenomController.text, date!, mail, dropdownValue,telephone),
 
                     Future.delayed(Duration(seconds: 2), () {
-                        // Code à exécuter après 5 secondes
-                        setState((){
-                          loading = true;
-                        });
+                      // Code à exécuter après 5 secondes
+                      setState((){
+                        loading = true;
+                      });
 
-                        print("Loading end");
-                        }),
+                      print("Loading end");
+                    }),
 
-                        this.widget.personne.Nom = nomController.text,
-                        this.widget.personne.Prenom = prenomController.text,
-                        this.widget.personne.Sex = dropdownValue,
-                        this.widget.personne.Age = date!,
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Type_user(personne: this.widget.personne,))),
+                    this.widget.personne.Nom = nomController.text,
+                    this.widget.personne.Prenom = prenomController.text,
+                    this.widget.personne.Sex = dropdownValue,
 
 
-    }
+                    _authenticationService.UpdateUser(this.widget.personne)
+
+                  }
 
                 }
 

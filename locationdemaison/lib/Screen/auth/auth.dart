@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:locationdemaison/Model/Personne.dart';
 import 'package:locationdemaison/Screen/Pages/Informations.dart';
 import 'package:locationdemaison/common/constante.dart';
 import 'package:locationdemaison/common/loading.dart';
@@ -20,7 +21,7 @@ class _AuthState extends State<Auth> {
   String mail = "";
   String password = "";
   String telephone = "";
-
+  Personne p = new Personne(fin_abonnement: DateTime.now(), statuspaiment: false, id: "", uid: "", image_profile: "", Numero_tel: "", Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: "", type_user: "client", password: '');
   final emailcontroller = TextEditingController();
   final passwordController = TextEditingController();
   final Numero_telController = TextEditingController();
@@ -100,7 +101,6 @@ class _AuthState extends State<Auth> {
                   password = passwordController.value.text,
                   mail = emailcontroller.value.text,
                   telephone = Numero_telController.text,
-
                   //result = showSignIn
                       //? await _authenticationService.signInWithEmailAndPassword(mail, password) : await _authenticationService.registerInWithEmailAndPassword(mail, password,telephone),
 
@@ -108,8 +108,11 @@ class _AuthState extends State<Auth> {
                     await _authenticationService.signInWithEmailAndPassword(mail, password),
 
                   }else{
-                    await _authenticationService.registerInWithEmailAndPassword(mail, password,telephone),
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Informations())),
+
+                    p.Mail = mail,
+                    p.Numero_tel = telephone,
+                    p.password = password,
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Informations(personne: p,))),
                     setState((){
                       showSignIn = true;
                     })

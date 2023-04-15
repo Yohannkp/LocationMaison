@@ -10,7 +10,7 @@ class Chatbublle extends StatelessWidget {
   Message message;
   Personne partenaire;
   String monId;
-  bool statutpaiment;
+  bool? statutpaiment;
 
   Chatbublle({required this.monId,required this.partenaire,required this.message,required this.statutpaiment});
 
@@ -44,7 +44,7 @@ class Chatbublle extends StatelessWidget {
               child: Column(
                 children: [
                   (message.imageurl == "") ? new Text(
-                    statutpaiment ?
+                    statutpaiment! ?
                     message.text ?? "" : "Pour discuter avec cet utilisateur\n vous devez souscrir a un abonnenement\n cliquez sur le boutton ci-dessous",
                     style: new TextStyle(
                         color: textcolor,
@@ -52,7 +52,7 @@ class Chatbublle extends StatelessWidget {
                         fontStyle: FontStyle.italic
                     ),
                   ) : new Text(""),
-                  statutpaiment ? new Container(height: 0,width: 0,) : FutureBuilder(builder: (context,snapshot){
+                  statutpaiment! ? new Container(height: 0,width: 0,) : FutureBuilder(builder: (context,snapshot){
                       return ElevatedButton(onPressed:() {Navigator.push(context, MaterialPageRoute(builder: (context)=> MyApp()));}, child: Text("Payer votre abonnement"));
                   })
 

@@ -37,7 +37,7 @@ class AuthenticationService {
   }
 
 
-  Future registerInWithEmailAndPassword(String email,String password,String Telephone) async{
+  Future registerInWithEmailAndPassword(String email,String password,String Telephone,Personne p) async{
     try{
       print("Inscription");
       _auth.authStateChanges().listen((User? user) {
@@ -46,6 +46,9 @@ class AuthenticationService {
         } else {
           print('User is signed in!');
           print('User ID: ${user.uid}');
+          p.uid = user.uid;
+          p.id = user.uid;
+          CreateUser(personne: p);
         }
       });
 
@@ -53,8 +56,6 @@ class AuthenticationService {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
 
       User? user = result.user;
-      CreateUser(Telephone: Telephone, mail: email,user_id: _auth.currentUser?.uid
-      );
       return _userFromFireBaseUser(user);
     }catch(exeption){
       print(exeption.toString());
@@ -75,6 +76,7 @@ class AuthenticationService {
            .map((snapshot) => snapshot.docs.map((doc) =>Personne.fromJson(doc.data())).toList());
 
 
+
   readUser() async {
 
     final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
@@ -88,6 +90,7 @@ class AuthenticationService {
     }
 
   Future<Personne> readUserConnected(String uid) async{
+
     final docUser = FirebaseFirestore.instance.collection("Users").doc(uid);
     final snapshot = await docUser.get();
 
@@ -99,6 +102,7 @@ class AuthenticationService {
 
   Future<Personne?> readOnlineUser() async {
 
+    print("Nous recherchon l'utilisarteur : "+_auth.currentUser!.uid);
     final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
     final snapshot = await docUser.get();
 
@@ -113,10 +117,10 @@ class AuthenticationService {
   }
 
 
-  Future CreateUser({required String Telephone,required String mail, required String? user_id}) async{
-      final docUser = FirebaseFirestore.instance.collection("Users").doc(user_id);
+  Future CreateUser({required Personne personne}) async{
+      final docUser = FirebaseFirestore.instance.collection("Users").doc(personne.uid);
       //final docPost = FirebaseFirestore.instance.collection("Post").doc(_auth.currentUser?.uid);
-      final Personne personne = new Personne(uid: user_id!,id: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: mail, type_user: '', image_profile: '', statuspaiment: false, fin_abonnement: DateTime.now());
+      //final Personne personne = new Personne(uid: user_id!,id: user_id, Numero_tel: Telephone, Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: mail, type_user: '', image_profile: '', statuspaiment: false, fin_abonnement: DateTime.now(), password: '');
 
       //final Post post = new Post(NomLocation: '',uid: _auth.currentUser?.uid,Pays: "Togo", Quartier: "Hedranawoe", Region: "Maritime", Ville: "Lomé", Description: "Avion", Image_maison: "", Image_piece1: "", Image_piece2: "", Image_piece3: "", Image_piece4: "", Date_post: DateTime.now(), Prix: 0, Nombre_chambres: 0, Nombre_likes: 0, Nombre_salon: 0, Nombre_vues: 0, post_id: docPost.id);
       //String path = docPost.path.split("/")[1];
@@ -130,7 +134,7 @@ class AuthenticationService {
       docUser.set(dataUser);
       //docPost.set(dataPost);
       //await docUser.set(json);
-      print("Ajout du telephone");
+      print("Ajout personne");
   }
 
   Future SetType_user(String type_user) async{
@@ -144,20 +148,18 @@ class AuthenticationService {
 
 
 
-  Future UpdateUser(String uid,String Nom,String Prenom,DateTime Age,String Mail,String Sex,String? Tel) async{
+  Future UpdateUser(Personne personne) async{
 
     final docUser = FirebaseFirestore.instance.collection("Users").doc(_auth.currentUser?.uid);
 
-    final Personne personne = new Personne(id: uid,uid: uid, Numero_tel: "Tel", Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: _auth.currentUser?.email, type_user: '', image_profile: '', statuspaiment: false, fin_abonnement: DateTime.now());
+    //final Personne personne = new Personne(id: uid,uid: uid, Numero_tel: "Tel", Nom: Nom, Prenom: Prenom, Age: Age, Sex: Sex, Mail: _auth.currentUser?.email, type_user: '', image_profile: '', statuspaiment: false, fin_abonnement: DateTime.now(), password: '');
     final data =  personne.toJson();
 
 
 
     docUser.update({
-      "Nom": Nom,
-      "Prenom" : Prenom,
-      "Sex" : Sex,
-      "Age" : Age
+      "Nom": personne.Nom,
+      "Prenom" : personne.Prenom,
     });
     }
 

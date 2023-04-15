@@ -47,6 +47,6 @@ class Post{
     };
   }
 
-  static Post fromJson(Map<String,dynamic> json) => Post(uid: json["uid"],NomLocation: json["NomLocation"],post_id: json["post_id"], Description: json["Description"], Image_maison: json["Image_maison"], Image_piece1: json["Image_piece1"], Date_post: (json["Date_post"] as Timestamp).toDate(), Image_piece2: json["Image_piece_2"], Image_piece3: json["Image_piece_3"],Image_piece4: json["Image_piece4"],Pays : json["Pays"],Region : json["Region"],Ville : json["Ville"], Nombre_chambres: json["Nombre_chambres"],Nombre_likes: json["Nombre_likes"],Nombre_salon: json["Nombre_salon"],Nombre_vues: json["Nombre_vues"],Prix: json["Prix"],Quartier: json["Quartier"]);
+  static Post fromJson(Map<String,dynamic> json) => Post(uid: json["uid"],NomLocation: json["NomLocation"],post_id: json["post_id"], Description: json["Description"], Image_maison: json["Image_maison"], Image_piece1: json["Image_piece1"], Date_post: (json["Date_post"] as Timestamp).toDate(), Image_piece2: json["Image_piece2"], Image_piece3: json["Image_piece3"],Image_piece4: json["Image_piece4"],Pays : json["Pays"],Region : json["Region"],Ville : json["Ville"], Nombre_chambres: json["Nombre_chambres"],Nombre_likes: json["Nombre_likes"],Nombre_salon: json["Nombre_salon"],Nombre_vues: json["Nombre_vues"],Prix: json["Prix"],Quartier: json["Quartier"]);
 
 }

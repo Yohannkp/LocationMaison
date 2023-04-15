@@ -8,9 +8,11 @@ import 'package:locationdemaison/Screen/Pages/AjoutPost1.dart';
 import 'package:locationdemaison/Screen/Pages/Chat/chat.dart';
 import 'package:locationdemaison/Screen/Pages/Chat/message.dart';
 import 'package:locationdemaison/Screen/Pages/Informations.dart';
+import 'package:locationdemaison/Screen/Pages/Personne/UpdatePersonne.dart';
 import 'package:locationdemaison/Screen/Pages/info_post_1.dart';
 import 'package:locationdemaison/Screen/Pages/postdetails.dart';
 import 'package:locationdemaison/Screen/Pages/searchpage.dart';
+import 'package:locationdemaison/common/loading.dart';
 import 'package:locationdemaison/services/PostService.dart';
 import 'package:locationdemaison/services/authentication.dart';
 import 'package:locationdemaison/services/paiementservice.dart';
@@ -31,7 +33,7 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
   late String nom;
 
 
-  Personne? onlineuser;
+  Personne? onlineuser = new Personne(password: "", fin_abonnement: DateTime.now(), statuspaiment: false, id: "", uid: "", image_profile: "", Numero_tel: "", Nom: "", Prenom: "", Age: DateTime.now(), Sex: "", Mail: "", type_user: "client");
   PaiementService paiementService = PaiementService();
   FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -50,6 +52,7 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
     });
 
   }
+
 
   String name = "";
 
@@ -75,6 +78,7 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
         Age = personne.Age.toIso8601String();
         type_user = personne.type_user!;
         sex = personne.Sex!;
+
       });
       return personne;
 
@@ -92,7 +96,7 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text("Acceuil"),
+          title: Text("Page vendeur",style: TextStyle(color: Colors.black),),
           actions: <Widget>[
             TextButton.icon(onPressed: () async{
               await _authenticationService.signOut();
@@ -249,16 +253,24 @@ class _home_screen_vendeurState extends State<home_screen_vendeur> {
                     Text("Type d'utilisateur : "+type_user),
                     //text("Fin de l'abonnement : "+)
                     ElevatedButton(onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Informations()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdatePersonne(personne: onlineuser!,)));
                     }, child: Text("Modifier son profil")),
                   ],
                 ),
               ),
 
-
               //Page Discussions
               Container(
-                child: Message(_auth.currentUser?.uid),
+                child: FutureBuilder(builder: (context,snapshot){
+                  if(_auth.currentUser!.uid != null){
+                    return Message(_auth.currentUser!.uid);
+                  }else{
+                    return Center(
+                      child: Text("Aucun message"),
+                    );
+                  }
+
+                })
               ),
 
 
